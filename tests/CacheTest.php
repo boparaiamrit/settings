@@ -1,5 +1,5 @@
 <?php
-use Efriandika\LaravelSettings\Cache;
+use Boparaiamrit\Settings\Cache;
 
 class CacheTest extends PHPUnit_Framework_TestCase
 {
@@ -8,7 +8,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->cacheFile = storage_path('settings.json');
+        $this->cacheFile = storage_path('framework/cache/settings.json');
         $this->cache     = new Cache($this->cacheFile);
     }
 
@@ -67,7 +67,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        @unlink(storage_path('settings.json'));
+        @unlink(storage_path('framework/cache/settings.json'));
     }
 
 }

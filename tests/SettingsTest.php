@@ -2,8 +2,8 @@
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
-use Efriandika\LaravelSettings\Settings;
-use Efriandika\LaravelSettings\Cache;
+use Boparaiamrit\Settings\Settings;
+use Boparaiamrit\Settings\Cache;
 
 class SettingsTest extends PHPUnit_Framework_TestCase
 {
@@ -16,8 +16,8 @@ class SettingsTest extends PHPUnit_Framework_TestCase
         $this->db = $this->initDb();
 
         $this->config   = [
-            'db_table'   => 'settings',
-            'cache_file' => storage_path('settings.json'),
+            'db_collection'   => 'settings',
+            'cache_file' => storage_path('framework/cache/settings.json'),
         ];
         $this->settings = new Settings($this->db, new Cache($this->config['cache_file']), $this->config);
     }
@@ -27,7 +27,7 @@ class SettingsTest extends PHPUnit_Framework_TestCase
     {
         $this->settings->set('key', 'value');
 
-        $setting = $this->db->table($this->config['db_table'])->where('key', 'key')->first(['value']);
+        $setting = $this->db->table($this->config['db_collection'])->where('key', 'key')->first(['value']);
         $this->assertEquals('value', unserialize($setting['value']));
     }
 
@@ -36,7 +36,7 @@ class SettingsTest extends PHPUnit_Framework_TestCase
         $set = ['valuekey' => 'value'];
         $this->settings->set('key', $set);
 
-        $setting = $this->db->table($this->config['db_table'])->where('key', 'key')->first(['value']);
+        $setting = $this->db->table($this->config['db_collection'])->where('key', 'key')->first(['value']);
 
         $this->assertEquals($set, unserialize($setting['value']));
         $this->assertEquals($set, $this->settings->get('key'));
@@ -78,7 +78,7 @@ class SettingsTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->settings->hasKey('key'));
         $this->assertFalse($this->settings->hasKey('key2'));
 
-        @unlink(storage_path('settings.json'));
+        @unlink(storage_path('framework/cache/settings.json'));
         $this->assertTrue($this->settings->hasKey('key'));
         $this->assertFalse($this->settings->hasKey('key2'));
 
@@ -94,7 +94,7 @@ class SettingsTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         Capsule::schema()->drop('settings');
-        @unlink(storage_path('settings.json'));
+        @unlink(storage_path('framework/cache/settings.json'));
     }
 
 

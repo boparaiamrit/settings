@@ -5,7 +5,7 @@ if (!function_exists('settings')) {
 	 * @param string|null $key
 	 * @param null        $default
 	 *
-	 * @return mixed|\Boparaiamrit\Settings\Facades\Settings
+	 * @return mixed|\Settings
 	 */
 	function settings($key = null, $default = null)
 	{

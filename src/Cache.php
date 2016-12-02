@@ -159,9 +159,15 @@ class Cache
 	 */
 	private function checkCacheFile()
 	{
+		// Check for Directory
 		if (!$this->files->isDirectory($this->path)) {
 			$this->files->makeDirectory($this->path, 0777);
 			
+			$this->flush();
+		}
+		
+		// Check for file
+		if (!$this->files->isFile($this->filepath)) {
 			$this->flush();
 		}
 	}

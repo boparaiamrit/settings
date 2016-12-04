@@ -83,7 +83,7 @@ class Settings
 			return $this->cache->get($key);
 		}
 		
-		$row = $this->database->table($this->config['db_collection'])->where('key', $key)->first(['value']);
+		$row = $this->database->table($this->config['collection'])->where('key', $key)->first(['value']);
 		
 		return (!is_null($row)) ? $this->cache->set($key, unserialize($row->value)) : null;
 	}
@@ -101,7 +101,7 @@ class Settings
 		if ($this->cache->hasKey($key)) {
 			return true;
 		}
-		$row = $this->database->table($this->config['db_collection'])->where('key', $key)->first(['value']);
+		$row = $this->database->table($this->config['collection'])->where('key', $key)->first(['value']);
 		
 		return !empty($row);
 	}
@@ -118,13 +118,13 @@ class Settings
 	{
 		$value = serialize($value);
 		
-		$setting = $this->database->table($this->config['db_collection'])->where('key', $key)->first();
+		$setting = $this->database->table($this->config['collection'])->where('key', $key)->first();
 		
 		if (is_null($setting)) {
-			$this->database->table($this->config['db_collection'])
+			$this->database->table($this->config['collection'])
 						   ->insert(['key' => $key, 'value' => $value]);
 		} else {
-			$this->database->table($this->config['db_collection'])
+			$this->database->table($this->config['collection'])
 						   ->where('key', $key)
 						   ->update(['value' => $value]);
 		}
@@ -144,7 +144,7 @@ class Settings
 	 */
 	public function forget($key)
 	{
-		$this->database->table($this->config['db_collection'])->where('key', $key)->delete();
+		$this->database->table($this->config['collection'])->where('key', $key)->delete();
 		$this->cache->forget($key);
 	}
 	
@@ -157,7 +157,7 @@ class Settings
 	{
 		$this->cache->flush();
 		
-		return $this->database->table($this->config['db_collection'])->delete();
+		return $this->database->table($this->config['collection'])->delete();
 	}
 	
 	/**

@@ -24,7 +24,7 @@ return [
 	| Info: If you change this table name, dont forget to update your settings migrations file.
 	|
 	*/
-	'db_collection' => 'settings',
+	'collection' => 'settings',
 	
 	/*
 	|--------------------------------------------------------------------------

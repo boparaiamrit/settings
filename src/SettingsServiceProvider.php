@@ -23,6 +23,10 @@ class SettingsServiceProvider extends ServiceProvider
 		$this->publishes([
 			__DIR__ . '/config/settings.php' => config_path('settings.php')
 		]);
+		
+		$this->mergeConfigFrom(
+			__DIR__ . '/config/settings.php', 'settings'
+		);
 	}
 	
 	/**
@@ -32,9 +36,7 @@ class SettingsServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-		$this->mergeConfigFrom(
-			__DIR__ . '/config/settings.php', 'settings'
-		);
+		require 'helpers.php';
 		
 		/** @noinspection PhpUndefinedMethodInspection */
 		$this->app['settings'] = $this->app->share(function ($app) {

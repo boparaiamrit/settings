@@ -42,9 +42,7 @@ class Cache
 	 */
 	public function __construct($path, $filename)
 	{
-		$hostname = app('hostname');
-		
-		$this->path = $path . '/' . $hostname;
+		$this->path = $path;
 		
 		$this->filename = $filename;
 		

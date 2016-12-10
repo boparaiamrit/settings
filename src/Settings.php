@@ -78,14 +78,13 @@ class Settings
 	 */
 	private function fetch($key)
 	{
-		
 		if ($this->cache->hasKey($key)) {
 			return $this->cache->get($key);
 		}
 		
 		$row = $this->database->table($this->config['collection'])->where('key', $key)->first(['value']);
 		
-		return (!is_null($row)) ? $this->cache->set($key, unserialize($row->value)) : null;
+		return (!is_null($row)) ? $this->cache->set($key, unserialize($row['value'])) : null;
 	}
 	
 	
